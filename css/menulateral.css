@@ -1,0 +1,66 @@
+body {
+  padding-top: 100px;
+}
+
+.navbar-brand img {
+  height: 40px;
+  max-height: 40px; /* Garante que a imagem não aumente além desse tamanho */
+}
+
+.nav-link {
+  font-size: 1rem;
+  padding: 10px 20px; /* Espaçamento interno dos links */
+}
+
+.nav-link.active {
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.profile-icon {
+  font-size: 35px;
+  color: #255885;
+  background-color: transparent; /* Remove a cor de fundo */
+  border: none; /* Remove qualquer borda */
+}
+
+.nav-item .dropdown-toggle::after {
+  display: none;
+}
+
+.navbar.fixed-top {
+  z-index: 1030;
+}
+
+.content {
+  display: none;
+}
+
+.content.active {
+  display: block;
+}
+
+.dropdown-menu {
+  min-width: 200px; /* Largura mínima do dropdown */
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Distribui os itens com espaço entre eles */
+}
+
+.navbar-brand {
+  margin-right: 1rem; /* Espaçamento à direita da imagem */
+}
+
+.nav-pills {
+  flex-grow: 1; /* Faz com que os links de navegação ocupem o espaço restante */
+  display: flex;
+  justify-content: center; /* Centraliza os links de navegação */
+  padding: 0 1rem; /* Espaçamento lateral dos links de navegação */
+}
+
+.nav-item {
+  margin: 0 0.5rem; /* Espaçamento entre os itens de navegação */
+}

@@ -1,0 +1,34 @@
+* {
+  padding: 0%;
+  margin: 0%;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #255885;
+}
+
+.div_branca {
+  width: 500px;
+  height: 450px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.input-group {
+  max-width: 350px; 
+  margin: auto; 
+}
+
+.logo_img{
+  width: 300px;
+}
+
+#btn_login{
+  width: 100px;
+}
