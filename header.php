@@ -13,4 +13,4 @@
 </head>
 
 <body>
-    <?php include 'menulateral.php'; ?>
+    <?php include 'navbar.php'; ?>
