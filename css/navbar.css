@@ -1,0 +1,36 @@
+.navbar-custom {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  padding: 10px 0;
+}
+
+.navbar-brand img {
+  max-height: 30px;
+  margin-left: 15px;
+}
+
+.navbar-nav .nav-link {
+  color: #343a40;
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+.navbar-nav .nav-item.dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+.navbar-nav .nav-item.dropdown .dropdown-menu {
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-separator {
+  border-left: 1px solid #ccc;
+  height: 30px;
+  margin: 0 10px;
+}
+
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
