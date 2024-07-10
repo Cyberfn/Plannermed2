@@ -34,7 +34,7 @@ include 'navbar.php'; ?>
                         <div class="col-md-6">
                             <ul class="lista-contato">
                                 <li>Fernando Nonato</li>
-                                <li><a href="mailto:fernandononatocco@gmail.com?subject=Assunto"><i class="bi bi-envelope-fill" style="hover"></i> Gmail</a></li>
+                                <li><a href="mailto:fernandononatocco@gmail.com?subject=Assunto"><i class="bi bi-envelope-fill"></i> Gmail</a></li>
                                 <li><a href="https://www.linkedin.com/in/fernando-nonato-014974236/" target="_blank"><i class="bi bi-linkedin"></i> Linkedin</a></li>
                                 <li><a href="https://github.com/Cyberfn" target="_blank"><i class="bi bi-github"></i> GitHub</a></li>
                             </ul>
@@ -65,7 +65,5 @@ include 'navbar.php'; ?>
         </div>
     </div>
 </section>
-
-
 
 <?php include 'footer.php'; ?>
