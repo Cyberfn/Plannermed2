@@ -16,3 +16,11 @@
 
 *.tmp
 *.bak
+
+# Composer
+composer.json
+composer.lock
+
+#conexao
+conexao.php
+config.php

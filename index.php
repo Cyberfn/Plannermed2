@@ -13,6 +13,8 @@
 
 <body>
 
+    <?php include 'config.php'; ?>
+    
     <div class="div_branca">
         <div class="d-flex justify-content-center mt-5 mb-3">
             <img class="logo_img" src="img/logo_plannermed.png">
