@@ -34,3 +34,17 @@
   right: 0;
   left: auto;
 }
+
+.navbar-nav .nav-item .btn-primary {
+  background-color: #007bff; /* Cor de fundo desejada para o botão ativo */
+  border-color: #007bff; /* Cor da borda do botão ativo */
+}
+
+.navbar-nav .nav-item .btn-primary:hover {
+  background-color: #0069d9; /* Cor de fundo ao passar o mouse sobre o botão ativo */
+  border-color: #0062cc; /* Cor da borda ao passar o mouse sobre o botão ativo */
+}
+
+.navbar-nav .nav-item .btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5); /* Sombra ao focar no botão ativo */
+}
