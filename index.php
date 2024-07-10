@@ -13,7 +13,8 @@
 
 <body>
 
-    <?php include 'config.php'; ?>
+    <?php include 'config.php';
+    require_once __DIR__ . '/vendor/autoload.php'; ?>
     
     <div class="div_branca">
         <div class="d-flex justify-content-center mt-5 mb-3">
