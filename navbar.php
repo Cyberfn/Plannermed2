@@ -12,7 +12,7 @@
 <script src="js/menulateral.js"></script>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="principal.php">
     <img src="img/logo_plannermed.png" alt="PlannerMed Logo" style="height: 40px;">
   </a>
   

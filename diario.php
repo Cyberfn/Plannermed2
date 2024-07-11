@@ -1,4 +1,3 @@
-
 <?php
 $titulo_pagina = 'Diario';
 $nome_style = 'css/diario.css';
