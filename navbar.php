@@ -5,7 +5,14 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
   <?php if (isset($nome_style)) echo '<link href="' . $nome_style . '" rel="stylesheet">'; ?>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="js/itens_basicos.js"></script>
 </head>
 
 <link rel="stylesheet" href="css/navbar.css">
@@ -15,7 +22,7 @@
   <a class="navbar-brand" href="principal.php">
     <img src="img/logo_plannermed.png" alt="PlannerMed Logo" style="height: 40px;">
   </a>
-  
+
   <div class="collapse navbar-collapse justify-content-end">
     <ul class="navbar-nav">
       <li class="nav-item">
