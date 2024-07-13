@@ -2,17 +2,22 @@ body {
    background-color: #255885;
 }
 
-.quem_somos, .objetivos, .contatos {
+.quem_somos,
+.objetivos,
+.contatos {
    background-color: #ffffff;
    padding: 20px;
    border-radius: 15px;
 }
 
-.quem_somos, .objetivos, .contatos a {
+.quem_somos,
+.objetivos,
+.contatos a {
    text-decoration: none;
 }
 
-.quem_somos a:hover, .objetivos a:hover, .contatos a:hover {
+.quem_somos a:hover,
+.objetivos a:hover,
+.contatos a:hover {
    color: gray;
 }
-
