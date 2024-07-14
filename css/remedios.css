@@ -2,14 +2,3 @@ body,
 html {
    background-color: #255885;
 }
-
-#navegacao_medicacao {
-   overflow-x: auto;
-   white-space: nowrap;
-   max-width: 100%;
-}
-
-#pagination {
-   display: inline-flex;
-   padding: 0;
-}
