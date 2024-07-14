@@ -77,7 +77,7 @@ function pegarMedicacoes(categoria, pagina) {
                         <td>${r.numeroRegistro}</td>
                         <td>${r.razaoSocial}</td>
                         <td class="bula_medicacao">
-                            <a href="#" class="bula_link" data-id_bula="${r.idBulaPacienteProtegido}">
+                            <a href="#" class="bula_link text-center" data-id_bula="${r.idBulaPacienteProtegido}">
                                 Baixar Bula
                             </a>
                         </td>

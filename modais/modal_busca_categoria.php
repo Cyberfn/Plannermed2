@@ -45,27 +45,27 @@
                 </div>
 
                 <div id="div_tabela_medicacao" class="d-none">
-                    <table id="tabela_medicacao" class="table table-bordered">
+                    <table id="tabela_medicacao" class="table table-bordered border-primary">
                         <thead>
                             <tr>
-                                <th>Nome do Produto</th>
-                                <th>Nuemro de Registro</th>
-                                <th>Razão Social</th>
-                                <th>Bula</th>
+                                <th class="text-center">Nome do Produto</th>
+                                <th class="text-center">Nuemro de Registro</th>
+                                <th class="text-center">Razão Social</th>
+                                <th class="text-center">Bula</th>
                             </tr>
                         </thead>
                         <tbody id="tbody_tabela_medicacao"></tbody>
                     </table>
                 </div>
 
-                <div id="btns_navegacao" class="d-none">
-                    <button type="button" class="btn btn-secondary" id="btnAnterior">Anterior</button>
-                    <button type="button" class="btn btn-secondary" id="btnProximo">Próximo</button>
+                <div id="btns_navegacao" class="d-none d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary me-2" id="btnAnterior">&lt; Anterior</button>
+                    <button type="button" class="btn btn-secondary" id="btnProximo">Próximo &gt;</button>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
