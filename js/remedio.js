@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    
+    let carregando = false;
+
     $("#btn_buscar_medicacao_categoria").on("click", function() {
         $("#modal_busca_medicacao_categoria").modal("show");
     });
@@ -30,45 +31,84 @@ $(document).ready(function () {
         $("#input_busca_medicamento").val("");
     });
 
+    $("#btnAnterior").on("click", function() {
+        if (paginaAtual > 1 && !carregando) {
+            paginaAtual--;
+            pegarMedicacoes($("#categoria_select").val(), paginaAtual);
+        }
+    });
+
+
+    $("#btnProximo").on("click", function() {
+        if (paginaAtual < numPaginas && !carregando) {
+            paginaAtual++;
+            pegarMedicacoes($("#categoria_select").val(), paginaAtual);
+        }
+    });
+
 });
 
+/**
+ * Monta a tabela com as informações dos medicamentos por categoria.
+ *
+ * @param {number} categoria - O ID da categoria dos medicamentos.
+ * @param {number} pagina - O número da página a ser exibida.
+ */
 function pegarMedicacoes(categoria, pagina) {
+    let carregando = true;
+
+    $(".spinner-border").show();
+    $("#btnAnterior, #btnProximo").prop("disabled", true);
+
     $.ajax({
         url: `https://bula.vercel.app/medicamentos?categoria=${categoria}&pagina=${pagina}`,
         method: "GET",
-        success: (res) => {
+        dataType: "json",
+        beforeSend: function() {
+            $("#modal_agaurde").modal('show');
+        },
+        success: function(res) {
             let concat = '';
 
-        res.content.map((r) => {
-            concat += `
-                <tr>
-                    <td>${r.nomeProduto}</td>
-                    <td>${r.numeroRegistro}</td>
-                    <td>${r.razaoSocial}</td>
-                    <td class="bula_medicacao">
-                        <a href="#" class="bula_link" data-id_bula="${r.idBulaPacienteProtegido}">
-                            Baixar Bula
-                        </a>
-                    </td>
-                </tr>`
+            res.content.map((r) => {
+                concat += `
+                    <tr>
+                        <td>${r.nomeProduto}</td>
+                        <td>${r.numeroRegistro}</td>
+                        <td>${r.razaoSocial}</td>
+                        <td class="bula_medicacao">
+                            <a href="#" class="bula_link" data-id_bula="${r.idBulaPacienteProtegido}">
+                                Baixar Bula
+                            </a>
+                        </td>
+                    </tr>`;
             });
 
             $("#tbody_tabela_medicacao").html(concat);
             $("#div_tabela_medicacao").removeClass("d-none");
-
-            $(".bula_link").on('click', function() {
-                abre_pdf_bula($(this).data('id_bula'));
-            })
-
-        configurarNavegacaoPaginas(res.totalPages, categoria);
+            $("#btns_navegacao").removeClass("d-none");
+            $("#modal_agaurde").modal('hide');
+        
+            configurarNavegacaoPaginas(res.totalPages, categoria);
 
         },
         error: function () {
-        alert("Erro ao buscar medicamentos.");
+            alert("Erro ao buscar medicamentos.");
         },
+        complete: function () {
+            carregando = false;
+                    
+            $(".spinner-border").hide();
+            $("#btnAnterior, #btnProximo").prop("disabled", false);
+        }
     });
 }
-    
+
+/**
+ * Faz uma requisição AJAX para obter e baixar o PDF da bula pelo ID.
+ * 
+ * @param {string} id_bula - O ID da bula.
+ */
 function abre_pdf_bula(id_bula) {
     $.ajax({
         type: "GET",
@@ -88,11 +128,11 @@ function abre_pdf_bula(id_bula) {
 }
 
 /**
- * 
- * @param {*} pdf_url 
+ * Realiza o download do PDF da bula a partir do URL fornecido.
+ *
+ * @param {string} pdf_url - O URL do PDF da bula a ser baixado.
  */
 function downloadBula(pdf_url) {
-
     const link = document.createElement('a');
     link.href = pdf_url;
     link.download = pdf_url.split('/').pop();
@@ -101,19 +141,20 @@ function downloadBula(pdf_url) {
     document.body.removeChild(link);
 }
 
-function configurarNavegacaoPaginas(numPaginas, categoria) {
-    for (let i = 1; i <= numPaginas; i++) {
-        $("#pagination").append(`
-                <li class="page-item">
-                    <a class="page-link" href="#" data-pagina="${i}" data-categoria="${categoria}">${i}</a>
-                </li>
-            `);
+/**
+ * Configura a navegação de páginas para a lista de medicamentos.
+ *
+ * @param {number} numPaginas - O número total de páginas.
+ * @param {number} categoria - O ID da categoria de medicamentos.
+ */
+function configurarNavegacaoPaginas(totalPages, categoria) {
+    numPaginas = totalPages;
+    paginaAtual = 1;
+    
+    $("#btnAnterior").prop("disabled", true);
+    $("#btnProximo").prop("disabled", totalPages <= 1);
+    
+    if (totalPages > 1) {
+        $("#btnProximo").prop("disabled", false);
     }
-
-    $("#pagination a").on("click", function(event) {
-        event.preventDefault(); // Evita a navegação da página
-        const pagina = $(this).data("pagina");
-        const categoria = $(this).data("categoria");
-        pegarMedicacoes(categoria, pagina);
-    });
 }
