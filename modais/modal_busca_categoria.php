@@ -26,6 +26,16 @@
     #navegacao_medicacao::-webkit-scrollbar-track {
         background-color: transparent;
     }
+    
+    .card {
+        width: 100%;
+    }
+    
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 </style>
 
 <div class="modal fade" id="modal_busca_medicacao_categoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -40,32 +50,21 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex justify-content-end mb-3">
-                    <select id="categoria_select" class="form-select w-auto" aria-label="Categoria" style="text-transform: capitalize;"></select>
-                    <button id="btn_buscar_remedio" class="btn btn-secondary ms-2"><i class="bi bi-search"></i> Buscar</button>
+                <select id="categoria_select" class="form-select w-auto" aria-label="Categoria" style="text-transform: capitalize; max-height: 200px; overflow-y: auto;"></select>
+                <button id="btn_buscar_remedio" class="btn btn-secondary ms-2"><i class="bi bi-search"></i> Buscar</button>
                 </div>
 
-                <div id="div_tabela_medicacao" class="d-none">
-                    <table id="tabela_medicacao" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Nome do Produto</th>
-                                <th>Nuemro de Registro</th>
-                                <th>Razão Social</th>
-                                <th>Bula</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody_tabela_medicacao"></tbody>
-                    </table>
+                <div id="div_cards_medicacao" class="container d-none">
                 </div>
 
-                <div id="btns_navegacao" class="d-none">
-                    <button type="button" class="btn btn-secondary" id="btnAnterior">Anterior</button>
-                    <button type="button" class="btn btn-secondary" id="btnProximo">Próximo</button>
+                <div id="btns_navegacao" class="d-none d-flex justify-content-center mt-3">
+                    <button type="button" class="btn btn-secondary me-2" id="btnAnterior">&lt; Anterior</button>
+                    <button type="button" class="btn btn-secondary" id="btnProximo">Próximo &gt;</button>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
