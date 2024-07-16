@@ -3,6 +3,7 @@ $titulo_pagina = 'Remedios';
 $nome_style = 'css/remedios.css';
 include 'navbar.php'; 
 include 'modais/modal_busca_categoria.php';
+include 'modais/modal_detalhes_medicacao.php';
 ?>
 
 <div class="text-center mt-3">
