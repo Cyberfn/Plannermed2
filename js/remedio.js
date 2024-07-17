@@ -117,17 +117,17 @@ function mostrarDetalhesMedicacao(numeroProcesso) {
                 <p><strong>Nome Comercial:</strong> ${res.nomeComercial}</p>
                 <p><strong>Apresentação:</strong> ${res.apresentacao}</p>
                 <p><strong>Formas Farmacêuticas:</strong> ${res.formasFarmaceuticas}</p>
-                <p><strong>Tarja:</strong> ${res.tarja == null ? 'Não possui tarja' : ''}</p>
+                <p><strong>Tarja:</strong> ${res.tarja == null ? 'MIP(Medicação isento de prescrição)' : res.tarja}</p>
                 <p><strong>Categoria Regulatória:</strong> ${res.categoriaRegulatoria}</p>
-                <p><strong>Medicamento de Referência:</strong> ${res.medicamentoReferencia}</p>
+                <p><strong>Referência:</strong> ${res.medicamentoReferencia ? res.medicamentoReferencia : 'Medicamento inovador'}</p>
                 <p><strong>Princípio Ativo:</strong> ${res.principioAtivo}</p>
                 <p><strong>Vias de Administração:</strong> ${res.viasAdministracao}</p>
                 <p><strong>Empresa:</strong> ${res.empresaNome} (${res.empresaCnpj})</p>
                 <p><strong>Conservação:</strong> ${res.conservacao}</p>
-                <p><strong>Restrição de Prescrição:</strong> ${res.restricaoPrescricao}</p>
-                <p><strong>Restrição de Uso:</strong> ${res.restricaoUso}</p>
-                <p><strong>Classes Terapêuticas:</strong> ${res.classesTerapeuticas}</p>
-                <a href="URL_DA_BULA" class="btn btn-primary" target="_blank">Baixar Bula</a>
+                <p><strong>Restrição de Prescrição:</strong> ${res.restricaoPrescricao ? res.restricaoPrescricao : 'Sem restrição de prescrição'}</p>
+                <p><strong>Restrição de Uso:</strong> ${res.restricaoUso ? res.restricaoUso : 'Medicação de venda livre'}</p>
+                <p><strong>Classe Terapêutica:</strong> ${res.classeTerapeutica ? res.classeTerapeutica : 'Sem classe terapêutica específica'}</p>
+                <button class="btn btn-primary" onclick="baixarBula(${numeroProcesso})">Baixar Bula</button>
             `);
             $("#modal_detalhes_medicacao").modal('show');
         },
@@ -136,10 +136,6 @@ function mostrarDetalhesMedicacao(numeroProcesso) {
         }
     });
 }
-
-
-
-
 // /**
 //  * Faz uma requisição AJAX para obter e baixar o PDF da bula pelo ID.
 //  * 
