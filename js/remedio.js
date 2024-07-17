@@ -15,7 +15,7 @@ $(document).ready(function () {
         } else {
             alert("Por favor, escolha uma categoria antes de buscar.");
         }
-    });    
+    });
 
     $("#categoria_select").on("change", function () {
         if ($(this).val() !== "") {
@@ -23,7 +23,7 @@ $(document).ready(function () {
         } else {
             $("#btn_buscar_remedio").prop("disabled", true);
         }
-    }); 
+    });
 
     $("#modal_busca_medicacao").on("show.bs.modal", function () {
         $("#div_tabela_medicacao").addClass("d-none");
@@ -37,7 +37,7 @@ $(document).ready(function () {
             pegarMedicacoes($("#categoria_select").val(), paginaAtual);
         }
     });
-
+    
     $("#btnProximo").on("click", function() {
         if (paginaAtual < totalPaginas && !carregando) {
             paginaAtual++;
@@ -45,6 +45,12 @@ $(document).ready(function () {
         }
     });
 
+    /**
+     * Busca medicamentos por categoria e página.
+     *
+     * @param {string} categoria - O ID da categoria dos medicamentos.
+     * @param {number} pagina - O número da página a ser exibida.
+     */
     function pegarMedicacoes(categoria, pagina) {
         carregando = true;
 
@@ -61,9 +67,9 @@ $(document).ready(function () {
             success: function(res) {
                 let concat = '';
 
-                res.resultado.map((r) => {
+                res.resultado.forEach((r) => {
                     concat += `
-                        <div class="col-md-4 mb-2" style='cursor: point;'>
+                        <div class="col-md-4 mb-2" style="cursor: pointer;">
                             <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
                                 <div class="card-body">
                                     <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
@@ -101,24 +107,31 @@ $(document).ready(function () {
         });
     }
 
+    /**
+     * Atualiza o estado dos botões de navegação com base na página atual e no total de páginas.
+     */
     function atualizarBotoesNavegacao() {
         $("#btnAnterior").prop("disabled", paginaAtual === 1);
         $("#btnProximo").prop("disabled", paginaAtual === totalPaginas);
     }
 
+    /**
+     * Exibe os detalhes de um medicamento em um modal.
+     *
+     * @param {string} numeroProcesso - O número do processo do medicamento.
+     */
     function mostrarDetalhesMedicacao(numeroProcesso) {
         $.ajax({
             url: `https://bula.landin.dev.br/busca/numero-processo/${numeroProcesso}`,
             method: "GET",
             dataType: "json",
             success: function(res) {
-
                 $("#modal_detalhes_medicacao .modal-title").text(res.nomeProduto);
                 $("#modal_detalhes_medicacao .modal-body").html(`
                     <p><strong>Nome Comercial:</strong> ${res.nomeComercial}</p>
                     <p><strong>Apresentação:</strong> ${res.apresentacao}</p>
                     <p><strong>Formas Farmacêuticas:</strong> ${res.formasFarmaceuticas}</p>
-                    <p><strong>Tarja:</strong> ${res.tarja == null ? 'MIP(Medicação isento de prescrição)' : res.tarja}</p>
+                    <p><strong>Tarja:</strong> ${res.tarja == null ? 'MIP (Medicação isento de prescrição)' : res.tarja}</p>
                     <p><strong>Categoria Regulatória:</strong> ${res.categoriaRegulatoria}</p>
                     <p><strong>Referência:</strong> ${res.medicamentoReferencia ? res.medicamentoReferencia : 'Medicamento inovador'}</p>
                     <p><strong>Princípio Ativo:</strong> ${res.principioAtivo}</p>
