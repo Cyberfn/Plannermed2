@@ -58,8 +58,8 @@
                 </div>
 
                 <div id="btns_navegacao" class="d-none d-flex justify-content-center mt-3">
-                    <button type="button" class="btn btn-secondary me-2" id="btnAnterior">&lt; Anterior</button>
-                    <button type="button" class="btn btn-secondary" id="btnProximo">Próximo &gt;</button>
+                    <button type="button" class="btn btn-secondary me-2 btn_nav_modal_anterior">&lt; Anterior</button>
+                    <button type="button" class="btn btn-secondary btn_nav_modal_proximo">Próximo &gt;</button>
                 </div>
 
             </div>
