@@ -50,12 +50,12 @@ $(document).ready(function () {
     });
 
     $("#btn_buscar_medicamento").on("click", function () {
-        let categoria = $("#input_nome_medicamento").val();
-        if (categoria) {
+        let nome = $("#input_nome_medicamento").val();
+        if (nome) {
             paginaAtual = 1;
-            pegar_medicacoes_nome(categoria, paginaAtual);
+            pegar_medicacoes_nome(nome, paginaAtual);
         } else {
-            alert("Por favor, escolha uma categoria antes de buscar.");
+            alert("Por favor, insira o nome do medicamento antes de buscar.");
         }
     });
 
@@ -87,24 +87,26 @@ $(document).ready(function () {
                 pagina: pagina,
             },
             dataType: "json",
-            beforeSend: function () {
-                $("#modal_agaurde").modal("show");
-            },
             success: function (res) {
                 let concat = "";
-
-                res.resultado.map((r) => {
-                    concat += `
-                        <div class="col-md-4 mb-2" style="cursor: pointer;">
-                            <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
-                                <div class="card-body">
-                                    <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
-                                    <p class="card-text">${r.empresaNome}</p>
+                if (res.resultado && res.resultado.length > 0) {
+                    res.resultado.map((r) => {
+                        concat += `
+                            <div class="col-md-4 d-flex justify-content-center mb-2" style="cursor: pointer;">
+                                <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
+                                        <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
+                                        <p class="card-text">${r.empresaNome}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
-                });
+                            </div>`;
+                    });
+                    $("#btns_navegacao_categoria").removeClass("d-none");
+                } else {
+                    concat = `<div class="col-12 text-center"><p>Nenhuma medicação encontrada.</p></div>`;
+                    $("#btns_navegacao_categoria").addClass("d-none");
+                }
 
                 $("#div_cards_medicacao").html(
                     `<div class="row justify-content-center">${concat}</div>`
@@ -116,8 +118,7 @@ $(document).ready(function () {
                 });
 
                 $("#div_cards_medicacao").removeClass("d-none");
-                $("#btns_navegacao_categoria").removeClass("d-none");
-                $("#modal_agaurde").modal("hide");
+            
 
                 totalPaginas = res.totalPaginas;
 
@@ -136,6 +137,11 @@ $(document).ready(function () {
     }
 
     function pegar_medicacoes_nome(nome, pagina) {
+        carregando = true;
+
+        $(".spinner-border").show();
+        $("#btn_nav_modal_anterior, #btn_nav_modal_proximo").prop("disabled", true);
+
         $.ajax({
             type: "GET",
             url: "https://bula.landin.dev.br/busca/",
@@ -146,19 +152,24 @@ $(document).ready(function () {
             dataType: "json",
             success: (res) => {
                 let concat = "";
-
-                res.resultado.map((r) => {
-                    concat += `
-                        <div class="col-md-4 mb-2" style="cursor: pointer;">
-                            <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
-                                <div class="card-body">
-                                    <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
-                                    <p class="card-text">${r.empresaNome}</p>
+                if (res.resultado && res.resultado.length > 0) {
+                    res.resultado.map((r) => {
+                        concat += `
+                            <div class="col-md-4 d-flex justify-content-center mb-2" style="cursor: pointer;">
+                                <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
+                                        <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
+                                        <p class="card-text">${r.empresaNome}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
-                });
+                            </div>`;
+                    });
+                    $("#btns_navegacao_medicamentos").removeClass("d-none");
+                } else {
+                    concat = `<div class="col-12 text-center"><p>Nenhuma medicação encontrada.</p></div>`;
+                    $("#btns_navegacao_medicamentos").addClass("d-none");
+                }
 
                 $("#div_cards_remedios").html(
                     `<div class="row justify-content-center">${concat}</div>`
@@ -170,12 +181,20 @@ $(document).ready(function () {
                 });
 
                 $("#div_cards_remedios").removeClass("d-none");
-                $("#btns_navegacao_medicamentos").removeClass("d-none");
-                $("#modal_agaurde").modal("hide");
+            
 
                 totalPaginas = res.totalPaginas;
 
                 atualizar_botoes_navegacao();
+            },
+            error: function () {
+                alert("Erro ao buscar medicamentos.");
+            },
+            complete: function () {
+                carregando = false;
+
+                $(".spinner-border").hide();
+                $("#btn_nav_modal_anterior, #btn_nav_modal_proximo").prop("disabled", false);
             },
         });
     }
