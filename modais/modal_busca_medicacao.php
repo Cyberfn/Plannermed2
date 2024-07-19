@@ -58,9 +58,9 @@
                 <div id="div_cards_remedios" class="container d-none">
                 </div>
 
-                <div id="btns_navegacao" class="d-none d-flex justify-content-center mt-3">
-                    <button type="button" class="btn btn-secondary me-2 btn_nav_modal_anterior" >&lt; Anterior</button>
-                    <button type="button" class="btn btn-secondary btn_nav_modal_proximo">Próximo &gt;</button>
+                <div id="btns_navegacao_medicamentos" class="d-none d-flex justify-content-center mt-3">
+                    <button type="button" id="btn_nav_modal_anterior" class="btn btn-secondary me-2" >&lt; Anterior</button>
+                    <button type="button" id="btn_nav_modal_proximo" class="btn btn-secondary">Próximo &gt;</button>
                 </div>
 
             </div>
