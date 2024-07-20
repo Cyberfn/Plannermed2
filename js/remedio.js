@@ -2,6 +2,7 @@ $(document).ready(function () {
     let carregando = false;
     let paginaAtual = 1;
     let totalPaginas = 0;
+    let dados_remedios = null;
 
     $("#btn_buscar_medicacao_categoria").on("click", function () {
         $("#modal_busca_medicacao_categoria").modal("show");
@@ -87,7 +88,7 @@ $(document).ready(function () {
                 pagina: pagina,
             },
             dataType: "json",
-            success: function (res) {
+            success: (res) => {
                 let concat = "";
                 if (res.resultado && res.resultado.length > 0) {
                     res.resultado.map((r) => {
@@ -118,16 +119,15 @@ $(document).ready(function () {
                 });
 
                 $("#div_cards_medicacao").removeClass("d-none");
-            
 
                 totalPaginas = res.totalPaginas;
 
                 atualizar_botoes_navegacao();
             },
-            error: function () {
+            error: () => {
                 alert("Erro ao buscar medicamentos.");
             },
-            complete: function () {
+            complete: () => {
                 carregando = false;
 
                 $(".spinner-border").hide();
@@ -181,16 +181,15 @@ $(document).ready(function () {
                 });
 
                 $("#div_cards_remedios").removeClass("d-none");
-            
 
                 totalPaginas = res.totalPaginas;
 
                 atualizar_botoes_navegacao();
             },
-            error: function () {
+            error: () => {
                 alert("Erro ao buscar medicamentos.");
             },
-            complete: function () {
+            complete: () => {
                 carregando = false;
 
                 $(".spinner-border").hide();
@@ -212,7 +211,7 @@ $(document).ready(function () {
             url: `https://bula.landin.dev.br/busca/numero-processo/${numeroProcesso}`,
             method: "GET",
             dataType: "json",
-            success: function (res) {
+            success: (res) => {
                 $("#modal_detalhes_medicacao .modal-title").text(res.nomeProduto);
                 $("#modal_detalhes_medicacao .modal-body").html(`
                     <p><strong>Nome Comercial:</strong> ${res.nomeComercial}</p>
@@ -229,11 +228,54 @@ $(document).ready(function () {
                     <p><strong>Restrição de Uso:</strong> ${res.restricaoUso ? res.restricaoUso : "Medicação de venda livre"}</p>
                     <p><strong>Classe Terapêutica:</strong> ${res.classeTerapeutica ? res.classeTerapeutica : "Sem classe terapêutica específica"}</p>
                 `);
+
+                dados_remedios = res;
+
                 $("#modal_detalhes_medicacao").modal("show");
             },
-            error: function () {
+            error: () => {
                 alert("Erro ao buscar detalhes da medicação.");
             },
         });
     }
-});
+
+    
+    $("#btn_adiciona_alarme").on('click', function(){
+        if (dados_remedios) {
+            cadastra_remedio(dados_remedios);
+            $("#modal_cadastro_medicamento").modal('show');
+        } else {
+            alert("Nenhum remédio selecionado para cadastrar.");
+        }
+    });
+
+    function cadastra_remedio(dados) {
+        $.ajax({
+            url: 'cadastro_remedios_crud.php',
+            type: 'POST',
+            data: dados,
+            success: (res) => {
+            },
+            error: () => {
+                alert("Não foi possível salvar a medicação.");
+            },
+        });
+    }
+
+    function cadastra_remedio(dados) {
+        $.ajax({
+            url: 'cadastro_remedios_crud.php',
+            type: 'POST',
+            data: dados,
+            success: (res) => {
+                alert("Medicação cadastrada com sucesso!");
+                $('#modal_cadastro_medicamento').modal('hide'); 
+                
+                $('#form_cadastro_medicamento')[0].reset();
+            },
+            error: () => {
+                alert("Não foi possível salvar a medicação.");
+            },
+        });
+    }
+
