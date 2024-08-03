@@ -1,78 +1,78 @@
 <div class="modal fade" id="modal_cadastro_medicamento" tabindex="-1" aria-labelledby="modal_cadastro_medicamento_label" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg"> <!-- Alterado para modal-lg para um tamanho mais compacto -->
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="modal_cadastro_medicamento_label">
-                    <i class="bi bi-capsule"></i>
-                    Cadastro de Medicação
+                    <i class="bi bi-capsule"></i> Cadastro de Medicação
                 </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">
                 <form id="form_cadastro_medicamento" method="POST" action="cadastro_remedios_crud.php">
-                    <ul id="dosagem">
-                        <li id="tituloArea">Dosagem do uso:</li>
-                        <li>
-                            <input type="number" name="num_dosagem" required>
-                            <select name="dosagem" required>
-                                <option value="">Unidade de dosagem</option>
-                                <option value="comprimido">comprimido</option>
-                                <option value="capsula">cápsula</option>
-                                <option value="gota">gota</option>
-                                <option value="colher">colher</option>
-                                <option value="unidade">unidade</option>
+                    <div class="row mb-3">
+                        <label for="num_dosagem" class="col-sm-4 col-form-label fw-bold">Dosagem:</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control form-control-sm" id="num_dosagem" name="num_dosagem" placeholder="Qtde" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <select name="dosagem" class="form-select form-select-sm" required>
+                                <option value="" disabled selected>Unidade</option>
+                                <option value="comprimido">Comprimido</option>
+                                <option value="capsula">Cápsula</option>
+                                <option value="gota">Gota</option>
+                                <option value="colher">Colher</option>
+                                <option value="unidade">Unidade</option>
                             </select>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
 
-                    <ul id="concentracao">
-                        <li id="tituloArea">Concentração do remédio:</li>
-                        <li>
-                            <input type="number" name="num_concentracao" required>
-                            <select name="concentracao" required>
-                                <option value="">Unidade de concentração</option>
+                    <div class="row mb-3">
+                        <label for="num_concentracao" class="col-sm-4 col-form-label fw-bold">Concentração:</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control form-control-sm" id="num_concentracao" name="num_concentracao" placeholder="Qtde" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <select name="concentracao" class="form-select form-select-sm" required>
+                                <option value="" disabled selected>Unidade</option>
                                 <option value="mcg">mcg</option>
                                 <option value="mg">mg</option>
                                 <option value="g">g</option>
                                 <option value="mL">mL</option>
                                 <option value="L">L</option>
                             </select>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
 
-                    <ul id="intervalo">
-                        <li id="tituloArea">Intervalo (em horas) entre cada uso:</li>
-                        <li>
-                            <input type="number" name="frequencia" required>
-                        </li>
-                    </ul>
+                    <div class="row mb-3">
+                        <label for="frequencia" class="col-sm-4 col-form-label fw-bold">Intervalo (horas):</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control form-control-sm" id="frequencia" name="frequencia" placeholder="Ex: 6" required>
+                        </div>
+                    </div>
 
-                    <ul id="duracao">
-                        <li id="tituloArea">Duração (em dias) do tratamento:</li>
-                        <li>
-                            <input type="number" name="duracao" required>
-                        </li>
-                    </ul>
+                    <div class="row mb-3">
+                        <label for="duracao" class="col-sm-4 col-form-label fw-bold">Duração (dias):</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control form-control-sm" id="duracao" name="duracao" placeholder="Ex: 14" required>
+                        </div>
+                    </div>
 
-                    <ul id="inicio">
-                        <li id="tituloArea">Data e horário de início: </li>
-                        <li>
-                            <input id="DataHora" type="datetime-local" name="inicio" required><br>
-                        </li>
-                    </ul>
-
+                    <div class="row mb-3">
+                        <label for="DataHora" class="col-sm-4 col-form-label fw-bold">Início:</label>
+                        <div class="col-sm-8">
+                            <input type="datetime-local" class="form-control form-control-sm" id="DataHora" name="inicio" required>
+                        </div>
+                    </div>
 
                     <input type="hidden" name="id_remedio" value="1">
                     <input type="hidden" name="id_usuario" value="1">
                 </form>
             </div>
             <div class="modal-footer">
-
-                <button id="criar" type="submit" class="btn btn-primary" form="form_cadastro_medicamento">
-                    Calcular horários e registrar
+                <button id="criar" type="submit" class="btn btn-primary btn-sm" form="form_cadastro_medicamento">
                 </button>
-
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                </button>
             </div>
         </div>
     </div>
