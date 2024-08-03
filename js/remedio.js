@@ -2,6 +2,7 @@ $(document).ready(function () {
     let carregando = false;
     let paginaAtual = 1;
     let totalPaginas = 0;
+    let dados_remedios = null;
 
     $("#btn_buscar_medicacao_categoria").on("click", function () {
         $("#modal_busca_medicacao_categoria").modal("show");
@@ -50,12 +51,12 @@ $(document).ready(function () {
     });
 
     $("#btn_buscar_medicamento").on("click", function () {
-        let categoria = $("#input_nome_medicamento").val();
-        if (categoria) {
+        let nome = $("#input_nome_medicamento").val();
+        if (nome) {
             paginaAtual = 1;
-            pegar_medicacoes_nome(categoria, paginaAtual);
+            pegar_medicacoes_nome(nome, paginaAtual);
         } else {
-            alert("Por favor, escolha uma categoria antes de buscar.");
+            alert("Por favor, insira o nome do medicamento antes de buscar.");
         }
     });
 
@@ -87,24 +88,26 @@ $(document).ready(function () {
                 pagina: pagina,
             },
             dataType: "json",
-            beforeSend: function () {
-                $("#modal_agaurde").modal("show");
-            },
-            success: function (res) {
+            success: (res) => {
                 let concat = "";
-
-                res.resultado.map((r) => {
-                    concat += `
-                        <div class="col-md-4 mb-2" style="cursor: pointer;">
-                            <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
-                                <div class="card-body">
-                                    <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
-                                    <p class="card-text">${r.empresaNome}</p>
+                if (res.resultado && res.resultado.length > 0) {
+                    res.resultado.map((r) => {
+                        concat += `
+                            <div class="col-md-4 d-flex justify-content-center mb-2" style="cursor: pointer;">
+                                <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
+                                        <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
+                                        <p class="card-text">${r.empresaNome}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
-                });
+                            </div>`;
+                    });
+                    $("#btns_navegacao_categoria").removeClass("d-none");
+                } else {
+                    concat = `<div class="col-12 text-center"><p>Nenhuma medicação encontrada.</p></div>`;
+                    $("#btns_navegacao_categoria").addClass("d-none");
+                }
 
                 $("#div_cards_medicacao").html(
                     `<div class="row justify-content-center">${concat}</div>`
@@ -116,17 +119,15 @@ $(document).ready(function () {
                 });
 
                 $("#div_cards_medicacao").removeClass("d-none");
-                $("#btns_navegacao_categoria").removeClass("d-none");
-                $("#modal_agaurde").modal("hide");
 
                 totalPaginas = res.totalPaginas;
 
                 atualizar_botoes_navegacao();
             },
-            error: function () {
+            error: () => {
                 alert("Erro ao buscar medicamentos.");
             },
-            complete: function () {
+            complete: () => {
                 carregando = false;
 
                 $(".spinner-border").hide();
@@ -136,6 +137,11 @@ $(document).ready(function () {
     }
 
     function pegar_medicacoes_nome(nome, pagina) {
+        carregando = true;
+
+        $(".spinner-border").show();
+        $("#btn_nav_modal_anterior, #btn_nav_modal_proximo").prop("disabled", true);
+
         $.ajax({
             type: "GET",
             url: "https://bula.landin.dev.br/busca/",
@@ -146,19 +152,24 @@ $(document).ready(function () {
             dataType: "json",
             success: (res) => {
                 let concat = "";
-
-                res.resultado.map((r) => {
-                    concat += `
-                        <div class="col-md-4 mb-2" style="cursor: pointer;">
-                            <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
-                                <div class="card-body">
-                                    <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
-                                    <p class="card-text">${r.empresaNome}</p>
+                if (res.resultado && res.resultado.length > 0) {
+                    res.resultado.map((r) => {
+                        concat += `
+                            <div class="col-md-4 d-flex justify-content-center mb-2" style="cursor: pointer;">
+                                <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
+                                        <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
+                                        <p class="card-text">${r.empresaNome}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
-                });
+                            </div>`;
+                    });
+                    $("#btns_navegacao_medicamentos").removeClass("d-none");
+                } else {
+                    concat = `<div class="col-12 text-center"><p>Nenhuma medicação encontrada.</p></div>`;
+                    $("#btns_navegacao_medicamentos").addClass("d-none");
+                }
 
                 $("#div_cards_remedios").html(
                     `<div class="row justify-content-center">${concat}</div>`
@@ -170,12 +181,19 @@ $(document).ready(function () {
                 });
 
                 $("#div_cards_remedios").removeClass("d-none");
-                $("#btns_navegacao_medicamentos").removeClass("d-none");
-                $("#modal_agaurde").modal("hide");
 
                 totalPaginas = res.totalPaginas;
 
                 atualizar_botoes_navegacao();
+            },
+            error: () => {
+                alert("Erro ao buscar medicamentos.");
+            },
+            complete: () => {
+                carregando = false;
+
+                $(".spinner-border").hide();
+                $("#btn_nav_modal_anterior, #btn_nav_modal_proximo").prop("disabled", false);
             },
         });
     }
@@ -193,7 +211,7 @@ $(document).ready(function () {
             url: `https://bula.landin.dev.br/busca/numero-processo/${numeroProcesso}`,
             method: "GET",
             dataType: "json",
-            success: function (res) {
+            success: (res) => {
                 $("#modal_detalhes_medicacao .modal-title").text(res.nomeProduto);
                 $("#modal_detalhes_medicacao .modal-body").html(`
                     <p><strong>Nome Comercial:</strong> ${res.nomeComercial}</p>
@@ -210,10 +228,53 @@ $(document).ready(function () {
                     <p><strong>Restrição de Uso:</strong> ${res.restricaoUso ? res.restricaoUso : "Medicação de venda livre"}</p>
                     <p><strong>Classe Terapêutica:</strong> ${res.classeTerapeutica ? res.classeTerapeutica : "Sem classe terapêutica específica"}</p>
                 `);
+
+                dados_remedios = res;
+
                 $("#modal_detalhes_medicacao").modal("show");
             },
-            error: function () {
+            error: () => {
                 alert("Erro ao buscar detalhes da medicação.");
+            },
+        });
+    }
+
+    
+    $("#btn_adiciona_alarme").on('click', function(){
+        if (dados_remedios) {
+            cadastra_remedio(dados_remedios);
+            $("#modal_cadastro_medicamento").modal('show');
+        } else {
+            alert("Nenhum remédio selecionado para cadastrar.");
+        }
+    });
+
+    function cadastra_remedio(dados) {
+        $.ajax({
+            url: 'cadastro_remedios_crud.php',
+            type: 'POST',
+            data: dados,
+            success: (res) => {
+            },
+            error: () => {
+                alert("Não foi possível salvar a medicação.");
+            },
+        });
+    }
+
+    function cadastra_remedio(dados) {
+        $.ajax({
+            url: 'cadastro_remedios_crud.php',
+            type: 'POST',
+            data: dados,
+            success: (res) => {
+                alert("Medicação cadastrada com sucesso!");
+                $('#modal_cadastro_medicamento').modal('hide'); 
+                
+                $('#form_cadastro_medicamento')[0].reset();
+            },
+            error: () => {
+                alert("Não foi possível salvar a medicação.");
             },
         });
     }

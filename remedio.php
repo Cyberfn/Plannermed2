@@ -5,6 +5,7 @@ include 'navbar.php';
 include 'modais/modal_busca_categoria.php';
 include 'modais/modal_detalhes_medicacao.php';
 include 'modais/modal_busca_medicacao.php';
+include 'modais/modal_cadastro_medicamento_usuario.php';
 ?>
 
 <div class="text-center mt-3">

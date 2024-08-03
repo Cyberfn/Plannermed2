@@ -1,3 +1,4 @@
+-- Criação do banco de dados e seleção
 CREATE DATABASE plm;
 USE plm;
 
@@ -33,12 +34,33 @@ CREATE TABLE dependente (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- Tabela de medicamentos
-CREATE TABLE medicamento (
-    id_medicamento INT PRIMARY KEY AUTO_INCREMENT,
-    nome_medicamento VARCHAR(100) NOT NULL,
-    fabricante VARCHAR(100) NOT NULL,
-    bula TEXT NOT NULL
+-- Tabela de remédios
+CREATE TABLE remedios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    codigo VARCHAR(255),
+    numeroRegistro VARCHAR(255),
+    numeroProcesso VARCHAR(255),
+    nomeProduto VARCHAR(255),
+    nomeComercial VARCHAR(255),
+    apresentacao TEXT,
+    formasFarmaceuticas VARCHAR(255),
+    tarja VARCHAR(255),
+    categoriaRegulatoria VARCHAR(255),
+    medicamentoReferencia TEXT,
+    principioAtivo VARCHAR(255),
+    viasAdministracao VARCHAR(255),
+    classeTerapeutica VARCHAR(255),
+    empresaNome VARCHAR(255),
+    empresaCnpj VARCHAR(255),
+    atc VARCHAR(255),
+    conservacao TEXT,
+    restricaoPrescricao TEXT,
+    restricaoUso TEXT,
+    classesTerapeuticas VARCHAR(255),
+    dataProduto DATE,
+    tipoProduto INT,
+    restricaoHospitais TEXT,
+    situacaoRegistro VARCHAR(255)
 );
 
 -- Tabela de horários de administração de medicamentos
@@ -46,19 +68,28 @@ CREATE TABLE horario_administracao (
     id_horario INT PRIMARY KEY AUTO_INCREMENT,
     horario DATETIME NOT NULL,
     id_login INT NOT NULL,
-    id_medicamento INT NOT NULL,
-    dosagem VARCHAR(50) NOT NULL,
-    concentracao VARCHAR(50) NOT NULL,
+    id_remedio INT NOT NULL,
+    dosagem_num INT NOT NULL,
+    dosagem_unidade VARCHAR(50) NOT NULL,
+    concentracao_num INT NOT NULL,
+    concentracao_unidade VARCHAR(50) NOT NULL,
+    intervalo_horas INT NOT NULL,
+    duracao_dias INT NOT NULL,
+    data_hora_inicio DATETIME NOT NULL,
     FOREIGN KEY (id_login) REFERENCES login(id_login),
-    FOREIGN KEY (id_medicamento) REFERENCES medicamento(id_medicamento)
+    FOREIGN KEY (id_remedio) REFERENCES remedios(id)
 );
 
 -- Tabela de registros de administração de medicamentos
 CREATE TABLE registro_administracao (
     id_registro INT PRIMARY KEY AUTO_INCREMENT,
     horario_registro DATETIME NOT NULL,
-    id_medicamento INT NOT NULL,
+    id_remedio INT NOT NULL,
     id_usuario INT NOT NULL,
-    FOREIGN KEY (id_medicamento) REFERENCES medicamento(id_medicamento),
+    FOREIGN KEY (id_remedio) REFERENCES remedios(id),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
+
+-- Inserir tipos de usuário
+INSERT INTO tipo_usuario (nome) VALUES ('Usuário Comum');
+INSERT INTO tipo_usuario (nome) VALUES ('Dependente');
