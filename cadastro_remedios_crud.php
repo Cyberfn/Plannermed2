@@ -4,90 +4,52 @@ require_once 'conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Obtém e sanitiza os dados
-    $id = $_POST['id'];
-    $codigo = $_POST['codigo'];
-    $numeroRegistro = $_POST['numeroRegistro'];
-    $numeroProcesso = $_POST['numeroProcesso'];
-    $nomeProduto = $_POST['nomeProduto'];
-    $nomeComercial = $_POST['nomeComercial'];
-    $apresentacao = $_POST['apresentacao'];
-    $formasFarmaceuticas = $_POST['formasFarmaceuticas'];
-    $tarja = $_POST['tarja'];
-    $categoriaRegulatoria = $_POST['categoriaRegulatoria'];
-    $medicamentoReferencia = $_POST['medicamentoReferencia'];
-    $principioAtivo = $_POST['principioAtivo'];
-    $viasAdministracao = $_POST['viasAdministracao'];
-    $classeTerapeutica = $_POST['classeTerapeutica'];
-    $empresaNome = $_POST['empresaNome'];
-    $empresaCnpj = $_POST['empresaCnpj'];
-    $atc = $_POST['atc'];
-    $conservacao = $_POST['conservacao'];
-    $restricaoPrescricao = $_POST['restricaoPrescricao'];
-    $restricaoUso = $_POST['restricaoUso'];
-    $classesTerapeuticas = $_POST['classesTerapeuticas'];
-    $dataProduto = $_POST['dataProduto'];
-    $tipoProduto = $_POST['tipoProduto'];
-    $restricaoHospitais = $_POST['restricaoHospitais'];
-    $situacaoRegistro = $_POST['situacaoRegistro'];
+    
+    function sanitizeInput($data) {
+        return htmlspecialchars(trim($data));
+    }
 
-    // Converte a data para o formato YYYY-MM-DD
+    $id = sanitizeInput($_POST['id']);
+    $codigo = sanitizeInput($_POST['codigo']);
+    $numeroRegistro = sanitizeInput($_POST['numeroRegistro']);
+    $numeroProcesso = sanitizeInput($_POST['numeroProcesso']);
+    $nomeProduto = sanitizeInput($_POST['nomeProduto']);
+    $nomeComercial = sanitizeInput($_POST['nomeComercial']);
+    $apresentacao = sanitizeInput($_POST['apresentacao']);
+    $formasFarmaceuticas = sanitizeInput($_POST['formasFarmaceuticas']);
+    $tarja = sanitizeInput($_POST['tarja']);
+    $categoriaRegulatoria = sanitizeInput($_POST['categoriaRegulatoria']);
+    $medicamentoReferencia = sanitizeInput($_POST['medicamentoReferencia']);
+    $principioAtivo = sanitizeInput($_POST['principioAtivo']);
+    $viasAdministracao = sanitizeInput($_POST['viasAdministracao']);
+    $classeTerapeutica = sanitizeInput($_POST['classeTerapeutica']);
+    $empresaNome = sanitizeInput($_POST['empresaNome']);
+    $empresaCnpj = sanitizeInput($_POST['empresaCnpj']);
+    $atc = sanitizeInput($_POST['atc']);
+    $conservacao = sanitizeInput($_POST['conservacao']);
+    $restricaoPrescricao = sanitizeInput($_POST['restricaoPrescricao']);
+    $restricaoUso = sanitizeInput($_POST['restricaoUso']);
+    $classesTerapeuticas = sanitizeInput($_POST['classesTerapeuticas']);
+    $dataProduto = sanitizeInput($_POST['dataProduto']);
+    $tipoProduto = sanitizeInput($_POST['tipoProduto']);
+    $restricaoHospitais = sanitizeInput($_POST['restricaoHospitais']);
+    $situacaoRegistro = sanitizeInput($_POST['situacaoRegistro']);
+
+    
     $dataProduto = date('Y-m-d', strtotime($dataProduto));
 
     try {
-        // Verifica se o medicamento já existe
+        
         $verificarMedicamento = "SELECT COUNT(*) FROM remedios WHERE 
             codigo = :codigo AND 
             numeroRegistro = :numeroRegistro AND 
-            numeroProcesso = :numeroProcesso AND 
-            nomeProduto = :nomeProduto AND 
-            nomeComercial = :nomeComercial AND 
-            apresentacao = :apresentacao AND 
-            formasFarmaceuticas = :formasFarmaceuticas AND 
-            tarja = :tarja AND 
-            categoriaRegulatoria = :categoriaRegulatoria AND 
-            medicamentoReferencia = :medicamentoReferencia AND 
-            principioAtivo = :principioAtivo AND 
-            viasAdministracao = :viasAdministracao AND 
-            classeTerapeutica = :classeTerapeutica AND 
-            empresaNome = :empresaNome AND 
-            empresaCnpj = :empresaCnpj AND 
-            atc = :atc AND 
-            conservacao = :conservacao AND 
-            restricaoPrescricao = :restricaoPrescricao AND 
-            restricaoUso = :restricaoUso AND 
-            classesTerapeuticas = :classesTerapeuticas AND 
-            dataProduto = :dataProduto AND 
-            tipoProduto = :tipoProduto AND 
-            restricaoHospitais = :restricaoHospitais AND 
-            situacaoRegistro = :situacaoRegistro";
+            numeroProcesso = :numeroProcesso";
 
         $stmt = $pdo->prepare($verificarMedicamento);
         $stmt->execute([
             ':codigo' => $codigo,
             ':numeroRegistro' => $numeroRegistro,
-            ':numeroProcesso' => $numeroProcesso,
-            ':nomeProduto' => $nomeProduto,
-            ':nomeComercial' => $nomeComercial,
-            ':apresentacao' => $apresentacao,
-            ':formasFarmaceuticas' => $formasFarmaceuticas,
-            ':tarja' => $tarja,
-            ':categoriaRegulatoria' => $categoriaRegulatoria,
-            ':medicamentoReferencia' => $medicamentoReferencia,
-            ':principioAtivo' => $principioAtivo,
-            ':viasAdministracao' => $viasAdministracao,
-            ':classeTerapeutica' => $classeTerapeutica,
-            ':empresaNome' => $empresaNome,
-            ':empresaCnpj' => $empresaCnpj,
-            ':atc' => $atc,
-            ':conservacao' => $conservacao,
-            ':restricaoPrescricao' => $restricaoPrescricao,
-            ':restricaoUso' => $restricaoUso,
-            ':classesTerapeuticas' => $classesTerapeuticas,
-            ':dataProduto' => $dataProduto,
-            ':tipoProduto' => $tipoProduto,
-            ':restricaoHospitais' => $restricaoHospitais,
-            ':situacaoRegistro' => $situacaoRegistro
+            ':numeroProcesso' => $numeroProcesso
         ]);
 
         $existeMedicamento = $stmt->fetchColumn();
@@ -95,16 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($existeMedicamento > 0) {
             echo "<script>alert('Medicamento já cadastrado.'); window.location.href='cadastro_medicamento.php';</script>";
         } else {
-            // Prepara a consulta SQL com placeholders
             $sql = "INSERT INTO remedios (
-                        id, codigo, numeroRegistro, numeroProcesso, nomeProduto, nomeComercial, 
+                        codigo, numeroRegistro, numeroProcesso, nomeProduto, nomeComercial, 
                         apresentacao, formasFarmaceuticas, tarja, categoriaRegulatoria, 
                         medicamentoReferencia, principioAtivo, viasAdministracao, classeTerapeutica, 
                         empresaNome, empresaCnpj, atc, conservacao, restricaoPrescricao, 
                         restricaoUso, classesTerapeuticas, dataProduto, tipoProduto, restricaoHospitais, 
                         situacaoRegistro
                     ) VALUES (
-                        :id, :codigo, :numeroRegistro, :numeroProcesso, :nomeProduto, :nomeComercial, 
+                        :codigo, :numeroRegistro, :numeroProcesso, :nomeProduto, :nomeComercial, 
                         :apresentacao, :formasFarmaceuticas, :tarja, :categoriaRegulatoria, 
                         :medicamentoReferencia, :principioAtivo, :viasAdministracao, :classeTerapeutica, 
                         :empresaNome, :empresaCnpj, :atc, :conservacao, :restricaoPrescricao, 
@@ -114,9 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $stmt = $pdo->prepare($sql);
 
-            // Executa a consulta com os dados fornecidos
             $stmt->execute([
-                ':id' => $id,
                 ':codigo' => $codigo,
                 ':numeroRegistro' => $numeroRegistro,
                 ':numeroProcesso' => $numeroProcesso,
@@ -143,10 +102,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':situacaoRegistro' => $situacaoRegistro
             ]);
 
-            echo "<script>alert('Medicamento cadastrado com sucesso!'); window.location.href='index.php';</script>";
+            echo "<script>alert('Medicamento cadastrado com sucesso!'); window.location.href='cadastro_medicamento.php';</script>";
         }
     } catch (PDOException $e) {
-        echo "<script>alert('Erro ao cadastrar medicamento: " . htmlspecialchars($e->getMessage()) . "'); window.location.href='cadastro_medicamento.php';</script>";
+        
+        echo "<script>alert('Erro ao cadastrar medicamento. Por favor, tente novamente mais tarde.'); window.location.href='cadastro_medicamento.php';</script>";
+        
+        error_log($e->getMessage());
     }
 } else {
     header("Location: cadastro_medicamento.php");

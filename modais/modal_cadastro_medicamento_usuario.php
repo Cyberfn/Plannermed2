@@ -69,10 +69,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="criar" type="submit" class="btn btn-primary btn-sm" form="form_cadastro_medicamento">
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                </button>
+                <button id="criar" type="submit" class="btn btn-primary btn-sm" form="form_cadastro_medicamento">Adicionar</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
