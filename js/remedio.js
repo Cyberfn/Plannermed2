@@ -1,36 +1,7 @@
 $(document).ready(function () {
-    let carregando = false;
     let paginaAtual = 1;
     let totalPaginas = 0;
     let dados_remedios = null;
-
-    $("#btn_buscar_medicacao_categoria").on("click", function () {
-        $("#modal_busca_medicacao_categoria").modal("show");
-    });
-
-    $("#btn_buscar_remedio").on("click", function () {
-        let categoria = $("#categoria_select").val();
-        if (categoria) {
-            paginaAtual = 1;
-            pegar_medicacoes_categoria(categoria, paginaAtual);
-        } else {
-            alert("Por favor, escolha uma categoria antes de buscar.");
-        }
-    });
-
-    $("#btn_anterior").on("click", function () {
-        if (paginaAtual > 1 && !carregando) {
-            paginaAtual--;
-            pegar_medicacoes_categoria($("#categoria_select").val(), paginaAtual);
-        }
-    });
-
-    $("#btn_proximo").on("click", function () {
-        if (paginaAtual < totalPaginas && !carregando) {
-            paginaAtual++;
-            pegar_medicacoes_categoria($("#categoria_select").val(), paginaAtual);
-        }
-    });
 
     $("#btn_nav_modal_anterior").on("click", function () {
         if (paginaAtual > 1 && !carregando) {
@@ -60,81 +31,10 @@ $(document).ready(function () {
         }
     });
 
-    $("#categoria_select").on("change", function () {
-        if ($(this).val() !== "") {
-            $("#btn_buscar_remedio").prop("disabled", false);
-        } else {
-            $("#btn_buscar_remedio").prop("disabled", true);
-        }
-    });
-
     $("#modal_busca_medicacao").on("show.bs.modal", function () {
         $("#div_tabela_medicacao").addClass("d-none");
-        $("#categoria_select").val("");
         $("#input_busca_medicamento").val("");
     });
-
-    function pegar_medicacoes_categoria(categoria, pagina) {
-        carregando = true;
-
-        $(".spinner-border").show();
-        $("#btn_anterior, #btn_proximo").prop("disabled", true);
-
-        $.ajax({
-            url: "https://bula.landin.dev.br/busca/categoria-regulatoria?",
-            method: "GET",
-            data: {
-                termo: categoria,
-                pagina: pagina,
-            },
-            dataType: "json",
-            success: (res) => {
-                let concat = "";
-                if (res.resultado && res.resultado.length > 0) {
-                    res.resultado.map((r) => {
-                        concat += `
-                            <div class="col-md-4 d-flex justify-content-center mb-2" style="cursor: pointer;">
-                                <div class="card h-100" data-numero_processo="${r.numeroProcesso}">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-capitalize">${r.nomeProduto}</h5>
-                                        <h6 class="card-subtitle mb-2 text-body-secondary">${r.numeroRegistro}</h6>
-                                        <p class="card-text">${r.empresaNome}</p>
-                                    </div>
-                                </div>
-                            </div>`;
-                    });
-                    $("#btns_navegacao_categoria").removeClass("d-none");
-                } else {
-                    concat = `<div class="col-12 text-center"><p>Nenhuma medicação encontrada.</p></div>`;
-                    $("#btns_navegacao_categoria").addClass("d-none");
-                }
-
-                $("#div_cards_medicacao").html(
-                    `<div class="row justify-content-center">${concat}</div>`
-                );
-
-                $(".card").on("click", function () {
-                    let numeroProcesso = $(this).data("numero_processo");
-                    mostrar_metalhes_medicacao(numeroProcesso);
-                });
-
-                $("#div_cards_medicacao").removeClass("d-none");
-
-                totalPaginas = res.totalPaginas;
-
-                atualizar_botoes_navegacao();
-            },
-            error: () => {
-                alert("Erro ao buscar medicamentos.");
-            },
-            complete: () => {
-                carregando = false;
-
-                $(".spinner-border").hide();
-                $("#btn_anterior, #btn_proximo").prop("disabled", false);
-            },
-        });
-    }
 
     function pegar_medicacoes_nome(nome, pagina) {
         carregando = true;
@@ -239,8 +139,8 @@ $(document).ready(function () {
         });
     }
 
-    
-    $("#btn_adiciona_alarme").on('click', function(){
+
+    $("#btn_adiciona_alarme").on('click', function () {
         if (dados_remedios) {
             cadastra_remedio(dados_remedios);
             $("#modal_cadastro_medicamento").modal('show');
@@ -269,8 +169,8 @@ $(document).ready(function () {
             data: dados,
             success: (res) => {
                 alert("Medicação cadastrada com sucesso!");
-                $('#modal_cadastro_medicamento').modal('hide'); 
-                
+                $('#modal_cadastro_medicamento').modal('hide');
+
                 $('#form_cadastro_medicamento')[0].reset();
             },
             error: () => {
