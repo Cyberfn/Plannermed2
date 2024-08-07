@@ -46,21 +46,21 @@
                     <div class="row mb-3">
                         <label for="frequencia" class="col-sm-4 col-form-label fw-bold">Intervalo (horas):</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control form-control-sm" id="frequencia" name="frequencia" placeholder="Ex: 6" required>
+                            <input type="number" class="form-control form" id="frequencia" name="frequencia" placeholder="Ex: 6" required>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label for="duracao" class="col-sm-4 col-form-label fw-bold">Duração (dias):</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control form-control-sm" id="duracao" name="duracao" placeholder="Ex: 14" required>
+                            <input type="number" class="form-control form" id="duracao" name="duracao" placeholder="Ex: 14" required>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label for="DataHora" class="col-sm-4 col-form-label fw-bold">Início:</label>
                         <div class="col-sm-8">
-                            <input type="datetime-local" class="form-control form-control-sm" id="DataHora" name="inicio" required>
+                            <input type="datetime-local" class="form-control form" id="DataHora" name="inicio" required>
                         </div>
                     </div>
 
@@ -69,8 +69,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="criar" type="submit" class="btn btn-primary btn-sm" form="form_cadastro_medicamento">Adicionar</button>
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                <button id="criar" type="submit" class="btn btn-primary" form="form_cadastro_medicamento">Adicionar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
