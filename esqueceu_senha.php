@@ -1,4 +1,5 @@
 <?php
+
 $titulo_pagina = 'Recuperar senha';
 $nome_style = 'css/esqueceu_senha.css';
 ?>

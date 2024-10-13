@@ -27,7 +27,9 @@ $select = "SELECT
            WHERE login.login = ?";
 
 $stmt = $pdo->prepare($select);
+
 if ($stmt->execute([$login])) {
+
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($row && password_verify($senha, $row['senha'])) {
@@ -40,10 +42,12 @@ if ($stmt->execute([$login])) {
         header("Location: principal.php");
         exit;
     } else {
+
         echo "<script>alert('Login ou senha inválidos')</script>";
         echo "<script>window.location.href='index.php'</script>";
         exit;
     }
 } else {
+
     echo "Erro ao executar a consulta SQL";
 }

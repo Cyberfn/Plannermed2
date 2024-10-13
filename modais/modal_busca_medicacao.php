@@ -51,7 +51,7 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex justify-content-end mb-3 col-12">
-                    <input type="text" id="input_nome_medicamento" class="form-control w-250" placeholder="Digite o nome do medicamento" aria-label="Nome">
+                    <input type="text" id="input_nome_medicamento" class="form-control w-250" placeholder="Digite o nome do medicamento" aria-label="Nome" required>
                     <button id="btn_buscar_medicamento" class="btn btn-secondary ms-2"><i class="bi bi-search"></i> Buscar</button>
                 </div>
 
