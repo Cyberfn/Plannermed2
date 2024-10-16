@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: index.php");
+    exit;
+}
+
 $titulo_pagina = 'Sobre nós';
 $nome_style = 'css/sobre_nos.css';
 include 'navbar.php'; ?>
