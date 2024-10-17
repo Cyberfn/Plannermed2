@@ -11,6 +11,9 @@ $nome_style = 'css/principal.css';
 include 'navbar.php';
 ?>
 
+<div id="div_card_noticias">
+
+</div>
 
 <script src="js/principal.js"></script>
 <?php include 'footer.php'; ?>

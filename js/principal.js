@@ -1,31 +1,31 @@
 $(document).ready(function() {
-    var feedUrl = 'https://g1.globo.com/rss/g1/saude.xml'; // Altere para o feed desejado
-    
+    cards_noticias();
+});
+
+function cards_noticias() {
     $.ajax({
-        url: feedUrl,
-        type: 'GET',
-        dataType: 'xml',
-        success: function(data) {
-            var $xml = $(data);
-            var $items = $xml.find('item');
-            var newsHtml = '';
-
-            $items.each(function() {
-                var $item = $(this);
-                var title = $item.find('title').text();
-                var link = $item.find('link').text();
-                var description = $item.find('description').text();
-
-                newsHtml += '<div class="noticia">';
-                newsHtml += '<h2><a href="' + link + '" target="_blank">' + title + '</a></h2>';
-                newsHtml += '<p>' + description + '</p>';
-                newsHtml += '</div>';
+        type: "get",
+        url: "https://api.rss2json.com/v1/api.json?rss_url=https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
+        dataType: "json",
+        success: (res) => {
+            let concat = ''; 
+            res.items.forEach(item => {
+              concat += `
+                <div class="col-md-4 mt-3">
+                  <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                      <h5 class="card-title">${item.title}</h5>
+                      <p class="card-text">${item.description.substring(0, 100)}...</p>
+                      <a href="${item.link}" class="btn btn-primary" target="_blank">Leia mais</a>
+                    </div>
+                  </div>
+                </div>`;
             });
 
-            $('#noticias').html(newsHtml);
+            $('#div_card_noticias').html(concat);  // Insere o HTML dos cards na div
         },
-        error: function() {
-            $('#noticias').html('<p>Não foi possível carregar as notícias.</p>');
+        error: () => {
+            $('#div_card_noticias').html('<p>Não foi possível carregar as notícias.</p>');  // Mensagem de erro
         }
     });
-});
+}
