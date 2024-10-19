@@ -11,8 +11,7 @@ $nome_style = 'css/principal.css';
 include 'navbar.php';
 ?>
 
-<div id="div_card_noticias">
-
+<div id="div_card_noticias" class="row justify-content-center">
 </div>
 
 <script src="js/principal.js"></script>
