@@ -50,5 +50,3 @@
       </ul>
     </div>
   </nav>
-
-  <?php include 'modais/modal_aguarde.php'; ?>

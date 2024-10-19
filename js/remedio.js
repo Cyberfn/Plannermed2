@@ -78,6 +78,7 @@ $(document).ready(function () {
                 $(".card").on("click", function () {
                     let numeroProcesso = $(this).data("numero_processo");
                     mostrar_metalhes_medicacao(numeroProcesso);
+                    
                 });
 
                 $("#div_cards_remedios").removeClass("d-none");
@@ -128,17 +129,17 @@ $(document).ready(function () {
                     <p><strong>Restrição de Uso:</strong> ${res.restricaoUso ? res.restricaoUso : "Medicação de venda livre"}</p>
                     <p><strong>Classe Terapêutica:</strong> ${res.classeTerapeutica ? res.classeTerapeutica : "Sem classe terapêutica específica"}</p>
                 `);
-
+        
                 dados_remedios = res;
-
+        
+                $("#cadastra_medicacao_diario").attr("data-id_med", res.id);
                 $("#modal_detalhes_medicacao").modal("show");
             },
-            error: () => {
-                alert("Erro ao buscar detalhes da medicação.");
-            },
+            error: (err) => {
+                console.error("Erro ao buscar dados:", err);
+            }
         });
     }
-
 
     $("#btn_adiciona_alarme").on('click', function () {
         if (dados_remedios) {
@@ -161,21 +162,36 @@ $(document).ready(function () {
             },
         });
     }
+});
 
-    function cadastra_remedio(dados) {
-        $.ajax({
-            url: 'cadastro_remedios_crud.php',
-            type: 'POST',
-            data: dados,
-            success: (res) => {
-                alert("Medicação cadastrada com sucesso!");
+$('#cadastra_medicacao_diario').on('click', function() {
+    $.ajax({
+        type: "POST",
+        url: "cadastro_remedio_usuario_crud.php",
+        data: {
+            id_remedio: $(this).data('id_med'),
+            id_usuario: $('input[name="id_usuario"]').val(),
+            num_dosagem: $('#num_dosagem').val(),
+            dosagem: $('#select_cadastro_dosagem').val(),
+            num_concentracao: $('input[name="num_concentracao"]').val(),
+            concentracao: $('select[name="concentracao"]').val(),
+            frequencia: $('input[name="frequencia"]').val(),
+            duracao: $('input[name="duracao"]').val(),
+            inicio: $('input[name="inicio"]').val()
+        },
+        dataType: "json",
+        success: (res) => {
+            if (res.success) {
+                alert('Horário de administração cadastrado com sucesso!');
                 $('#modal_cadastro_medicamento').modal('hide');
-
                 $('#form_cadastro_medicamento')[0].reset();
-            },
-            error: () => {
-                alert("Não foi possível salvar a medicação.");
-            },
-        });
-    }
+                window.location.href = 'diario.php';
+            } else {
+                alert('Erro ao cadastrar: ' + res.message)
+            }
+        },
+        error: (err) => {
+            console.error(err);
+        }
+    });
 });
