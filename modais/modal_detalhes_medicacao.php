@@ -15,7 +15,7 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" id="btn_adiciona_alarme" class="btn btn-primary">Adicioanr alarme</button>
+            <button type="button" id="btn_adiciona_alarme" class="btn btn-primary">Adicionar alarme</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
