@@ -132,7 +132,7 @@ $(document).ready(function () {
         
                 dados_remedios = res;
         
-                $("#cadastra_medicacao_diario").attr("data-id_med", res.id);
+                $("#id_remedio").val(res.id);
                 $("#modal_detalhes_medicacao").modal("show");
             },
             error: (err) => {
@@ -164,34 +164,35 @@ $(document).ready(function () {
     }
 });
 
-$('#cadastra_medicacao_diario').on('click', function() {
+$('#cadastra_medicacao_diario').on('click', function() {    
     $.ajax({
         type: "POST",
         url: "cadastro_remedio_usuario_crud.php",
         data: {
-            id_remedio: $(this).data('id_med'),
+            id_remedio: $('#id_remedio').val(),
             id_usuario: $('input[name="id_usuario"]').val(),
             num_dosagem: $('#num_dosagem').val(),
             dosagem: $('#select_cadastro_dosagem').val(),
-            num_concentracao: $('input[name="num_concentracao"]').val(),
+            num_concentracao: $('#num_concentracao').val(),
             concentracao: $('select[name="concentracao"]').val(),
-            frequencia: $('input[name="frequencia"]').val(),
-            duracao: $('input[name="duracao"]').val(),
-            inicio: $('input[name="inicio"]').val()
+            frequencia: $('#frequencia').val(),
+            duracao: $('#duracao').val(),
+            inicio: $('#DataHora').val() 
         },
         dataType: "json",
         success: (res) => {
             if (res.success) {
                 alert('Horário de administração cadastrado com sucesso!');
                 $('#modal_cadastro_medicamento').modal('hide');
-                $('#form_cadastro_medicamento')[0].reset();
-                window.location.href = 'diario.php';
+                $('#form_cadastro_medicamento')[0].reset(); // Reseta o formulário
+                window.location.href = 'diario.php'; // Redireciona para a página desejada
             } else {
-                alert('Erro ao cadastrar: ' + res.message)
+                alert('Erro ao cadastrar: ' + res.message);
             }
         },
-        error: (err) => {
+        error: function(err) {
             console.error(err);
+            alert('Ocorreu um erro ao tentar cadastrar. Por favor, tente novamente.');
         }
     });
 });
